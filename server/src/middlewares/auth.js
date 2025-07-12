@@ -1,15 +1,17 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User";
+import { findUserById } from "../microservices/user.dao.js";
+import { verifyToken } from "../utils/helper.js";
 
-module.exports = async (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) return res.status(401).json({ message: "No token, auth denied" });
+export const authMiddleware = async (req, res, next) => {
+    const token = req.cookies.accessToken
+    if(!token) return res.status(401).json({message : "Unauthorized"})
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id).select("-passwordHash");
-    next();
-  } catch (err) {
-    res.status(401).json({ message: "Token is not valid" });
-  }
-};
+    try {
+        const decoded = verifyToken(token);
+        const user = await findUserById(decoded);
+        if(!user) return res.status(401).json({message : "Unauthorized"})
+        req.user = user;
+        next();
+    } catch (error) {
+        return res.status(401).json({message : "Unauthorized"})
+    }
+}
