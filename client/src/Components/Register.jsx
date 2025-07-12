@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { z } from "zod";
 import { registerUser } from "../api/user.api";
+import { useNavigate } from "react-router-dom"
 
 const schema = z.object({
   name: z.string().min(2, "Name is too short"),
@@ -11,7 +12,9 @@ const schema = z.object({
     .max(50, "Password is too long"),
 });
 
-export default function Register() {
+export default function Register({state}) {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -37,8 +40,7 @@ export default function Register() {
 
     try {
       const data = await registerUser(formData.name, formData.email, formData.password)
-      // dispatch(login(data.user))
-      // navigate({to: '/dashboard'});
+      navigate('/');
       console.log('Registration Success', data);
       setSuccess(true)
       setFormData({ name: '', email: '', password: '' })
@@ -144,6 +146,10 @@ export default function Register() {
         >
           {loading ? "Registering…" : "Register"}
         </button>
+
+        <div className="mt-4 text-center text-sm text-gray-600">
+          <p>Already have an account? <span onClick={() => state(true)} className="text-blue-500 hover:underline">Login</span></p>
+        </div>
       </form>
     </div>
   );

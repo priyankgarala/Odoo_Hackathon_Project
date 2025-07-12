@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { z } from "zod";
 import { loginUser } from '../api/user.api';
+import { useNavigate } from "react-router-dom"
 
 // ✅ Zod schema
 const schema = z.object({
@@ -8,7 +9,7 @@ const schema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-const Login = () => {
+const Login = ({state}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,6 +19,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const navigate = useNavigate();
   // ✅ Handle input changes
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -34,10 +36,10 @@ const Login = () => {
 
       try {
         const data = await loginUser(formData.email, formData.password)
-        // dispatch(login(data.user))
-        // navigate({to: '/dashboard'});
+        navigate('/');
         setSuccess(true)
         setFormData({ email: '', password: '' })
+        console.log(data);
       } catch (err) {
         setErrors(err.response?.data?.message || 'Login failed. Please try again.')
       } finally {
@@ -120,6 +122,11 @@ const Login = () => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+        
+        <div className="mt-4 text-center text-sm text-gray-600">
+          <p>Don't have an account? <span onClick={() => state(false)} className="text-blue-500 hover:underline">Register</span></p>
+        </div>
+      
       </form>
     </div>
   );
