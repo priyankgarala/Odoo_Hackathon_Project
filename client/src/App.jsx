@@ -4,6 +4,7 @@ import Login from './Components/Login'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Dashboard from './pages/Dashboard'
 import Register from './Components/Register'
+import ItemDesc from './pages/ItemDesc'
 const App = () => {
   return (
     <BrowserRouter>
@@ -11,6 +12,7 @@ const App = () => {
       <Route path="/" element={<Dashboard />}/>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/item" element={<ItemDesc />} />
     </Routes>
   </BrowserRouter>
   )
