@@ -11,7 +11,7 @@ const itemSchema = new mongoose.Schema({
   status: { type: String, default: "available" },
   images: [String], // Cloudinary URLs
   createdAt: { type: Date, default: Date.now },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "user" }, // <- reference
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // <- reference
 });
 
 export default mongoose.model("Item", itemSchema);

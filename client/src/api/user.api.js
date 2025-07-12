@@ -15,4 +15,14 @@ export const registerUser = async(name,email,password) => {
 export const logoutUser = async() => {
     const {data} = await axiosInstance.get("/api/auth/logout");
     return data;
+
+}
+export const createItem = async(title, description, category, type, size, condition, tags) => {
+    const {data} = await axiosInstance.post("/api/items",{title, description, category, type, size, condition, tags});
+    return data;
+}
+
+export const getAllItems = async() => {
+    const {data} = await axiosInstance.get("/api/items");
+    return data;
 }
