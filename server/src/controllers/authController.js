@@ -28,8 +28,6 @@ const logout_user = wrapAsync(async (req, res) => {
     res.status(200).json({ message: "Logout Successful" });
 });
 
-
-
 export default {
     register_user,
     login_user,
