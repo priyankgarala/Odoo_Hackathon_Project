@@ -17,7 +17,7 @@ export const loginUser = async(email, password) => {
         console.log("User not found with email:", email);
         throw new Error("Invalid email or password");
     }
-
+    
     try {
         const isPasswordValid = await user.comparePassword(password);
         console.log("Password validation result:", isPasswordValid);
@@ -33,3 +33,4 @@ export const loginUser = async(email, password) => {
         throw new Error("Invalid email or password");
     }
 }
+
